@@ -1,0 +1,207 @@
+@host = https://localhost:7273
+
+### ============================================================
+### 1. AUTHENTICATION
+### ============================================================
+
+### Login as Admin (200) - copy the accessToken into @adminToken below
+# @name loginAdmin
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{ "username": "admin", "password": "Admin@12345" }
+
+###
+@adminToken = {{loginAdmin.response.body.$.accessToken}}
+
+### Login as a normal User (200)
+# @name loginUser
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{ "username": "user", "password": "User@12345" }
+
+###
+@userToken = {{loginUser.response.body.$.accessToken}}
+
+### Login with wrong password (401)
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{ "username": "admin", "password": "wrong" }
+
+### Login with missing fields (400, validation)
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{ "username": "" }
+
+### ============================================================
+### 2. EMPLOYEES - success cases
+### ============================================================
+
+### List employees, page 1 (200)
+GET {{host}}/api/employees
+Authorization: Bearer {{userToken}}
+
+### Filter + sort + paginate (200)
+GET {{host}}/api/employees?search=a&departmentId=1&isActive=true&sortBy=hireDate&descending=true&page=1&pageSize=5
+Authorization: Bearer {{userToken}}
+
+### Get one employee (200)
+GET {{host}}/api/employees/1
+Authorization: Bearer {{userToken}}
+
+### Create employee as Admin (201 + Location header)
+POST {{host}}/api/employees
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "firstName": "Priya",
+  "lastName": "Menon",
+  "email": "priya.menon@example.com",
+  "hireDate": "2025-02-10",
+  "salary": 68000,
+  "departmentId": 1
+}
+
+### Replace employee with PUT (204)
+PUT {{host}}/api/employees/1
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "firstName": "Asha",
+  "lastName": "Nair",
+  "email": "asha.nair@example.com",
+  "hireDate": "2022-03-14",
+  "salary": 90000,
+  "departmentId": 1
+}
+
+### Partial update with PATCH: deactivate (204)
+PATCH {{host}}/api/employees/2/status
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{ "isActive": false }
+
+### Delete employee (204)
+DELETE {{host}}/api/employees/4
+Authorization: Bearer {{adminToken}}
+
+### ============================================================
+### 3. EMPLOYEES - failure cases
+### ============================================================
+
+### 401 Unauthorized: no token
+GET {{host}}/api/employees
+
+### 403 Forbidden: authenticated as User, but POST needs Admin
+POST {{host}}/api/employees
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "firstName": "Blocked",
+  "lastName": "User",
+  "email": "blocked@example.com",
+  "hireDate": "2025-02-10",
+  "salary": 1000,
+  "departmentId": 1
+}
+
+### 400 Bad Request: DTO validation (bad email, negative salary)
+POST {{host}}/api/employees
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": "Menon",
+  "email": "not-an-email",
+  "hireDate": "2025-02-10",
+  "salary": -5,
+  "departmentId": 1
+}
+
+### 400 Bad Request: business rule (hire date in the future)
+POST {{host}}/api/employees
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "firstName": "Future",
+  "lastName": "Hire",
+  "email": "future.hire@example.com",
+  "hireDate": "2999-01-01",
+  "salary": 1000,
+  "departmentId": 1
+}
+
+### 400 Bad Request: department does not exist
+POST {{host}}/api/employees
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "firstName": "No",
+  "lastName": "Department",
+  "email": "no.department@example.com",
+  "hireDate": "2025-02-10",
+  "salary": 1000,
+  "departmentId": 999
+}
+
+### 409 Conflict: duplicate email
+POST {{host}}/api/employees
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "firstName": "Dup",
+  "lastName": "Licate",
+  "email": "ASHA.NAIR@example.com",
+  "hireDate": "2025-02-10",
+  "salary": 1000,
+  "departmentId": 1
+}
+
+### 404 Not Found
+GET {{host}}/api/employees/9999
+Authorization: Bearer {{userToken}}
+
+### ============================================================
+### 4. DEPARTMENTS
+### ============================================================
+
+### List departments (200)
+GET {{host}}/api/departments
+Authorization: Bearer {{userToken}}
+
+### Department summary: active head count and average salary (200)
+GET {{host}}/api/departments/summary
+Authorization: Bearer {{userToken}}
+
+### Create department (201)
+POST {{host}}/api/departments
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{ "name": "Legal", "description": "Contracts and compliance" }
+
+### Update department (204)
+PUT {{host}}/api/departments/3
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{ "name": "Finance & Payroll", "description": "Budgeting and payroll." }
+
+### 409 Conflict: cannot delete a department that still has employees
+DELETE {{host}}/api/departments/1
+Authorization: Bearer {{adminToken}}
+
+### 403 Forbidden: User cannot delete departments
+DELETE {{host}}/api/departments/1
+Authorization: Bearer {{userToken}}

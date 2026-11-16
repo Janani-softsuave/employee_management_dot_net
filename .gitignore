@@ -1,0 +1,21 @@
+## .NET build output
+bin/
+obj/
+
+## Visual Studio
+.vs/
+*.user
+*.suo
+
+## Local database files
+*.db
+*.db-shm
+*.db-wal
+
+## Secrets and local overrides (never commit)
+appsettings.Local.json
+secrets.json
+.env
+
+## Test results
+TestResults/
