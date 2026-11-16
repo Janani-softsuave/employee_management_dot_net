@@ -1,0 +1,195 @@
+@host = https://localhost:7273
+
+
+###
+# @name loginAdmin
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{ "username": "admin", "password": "Admin@12345" }
+
+###
+@adminToken = {{loginAdmin.response.body.$.accessToken}}
+
+###
+# @name loginUser
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{ "username": "user", "password": "User@12345" }
+
+###
+@userToken = {{loginUser.response.body.$.accessToken}}
+
+###
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{ "username": "admin", "password": "wrong" }
+
+###
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{ "username": "" }
+
+
+###
+GET {{host}}/api/employees
+Authorization: Bearer {{userToken}}
+
+###
+GET {{host}}/api/employees?search=a&departmentId=1&isActive=true&sortBy=hireDate&descending=true&page=1&pageSize=5
+Authorization: Bearer {{userToken}}
+
+###
+GET {{host}}/api/employees/1
+Authorization: Bearer {{userToken}}
+
+###
+POST {{host}}/api/employees
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "firstName": "Priya",
+  "lastName": "Menon",
+  "email": "priya.menon@example.com",
+  "hireDate": "2025-02-10",
+  "salary": 68000,
+  "departmentId": 1
+}
+
+###
+PUT {{host}}/api/employees/1
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "firstName": "Asha",
+  "lastName": "Nair",
+  "email": "asha.nair@example.com",
+  "hireDate": "2022-03-14",
+  "salary": 90000,
+  "departmentId": 1
+}
+
+###
+PATCH {{host}}/api/employees/2/status
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{ "isActive": false }
+
+###
+DELETE {{host}}/api/employees/4
+Authorization: Bearer {{adminToken}}
+
+
+###
+GET {{host}}/api/employees
+
+###
+POST {{host}}/api/employees
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "firstName": "Blocked",
+  "lastName": "User",
+  "email": "blocked@example.com",
+  "hireDate": "2025-02-10",
+  "salary": 1000,
+  "departmentId": 1
+}
+
+###
+POST {{host}}/api/employees
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": "Menon",
+  "email": "not-an-email",
+  "hireDate": "2025-02-10",
+  "salary": -5,
+  "departmentId": 1
+}
+
+###
+POST {{host}}/api/employees
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "firstName": "Future",
+  "lastName": "Hire",
+  "email": "future.hire@example.com",
+  "hireDate": "2999-01-01",
+  "salary": 1000,
+  "departmentId": 1
+}
+
+###
+POST {{host}}/api/employees
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "firstName": "No",
+  "lastName": "Department",
+  "email": "no.department@example.com",
+  "hireDate": "2025-02-10",
+  "salary": 1000,
+  "departmentId": 999
+}
+
+###
+POST {{host}}/api/employees
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "firstName": "Dup",
+  "lastName": "Licate",
+  "email": "ASHA.NAIR@example.com",
+  "hireDate": "2025-02-10",
+  "salary": 1000,
+  "departmentId": 1
+}
+
+###
+GET {{host}}/api/employees/9999
+Authorization: Bearer {{userToken}}
+
+
+###
+GET {{host}}/api/departments
+Authorization: Bearer {{userToken}}
+
+###
+GET {{host}}/api/departments/summary
+Authorization: Bearer {{userToken}}
+
+###
+POST {{host}}/api/departments
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{ "name": "Legal", "description": "Contracts and compliance" }
+
+###
+PUT {{host}}/api/departments/3
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{ "name": "Finance & Payroll", "description": "Budgeting and payroll." }
+
+###
+DELETE {{host}}/api/departments/1
+Authorization: Bearer {{adminToken}}
+
+###
+DELETE {{host}}/api/departments/1
+Authorization: Bearer {{userToken}}
