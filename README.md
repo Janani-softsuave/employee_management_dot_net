@@ -98,6 +98,8 @@ dotnet run --project src/EmployeeManagement.Api --launch-profile https
 ```
 
 Then open **https://localhost:7273/swagger** (OpenAPI document: `/openapi/v1.json`).
+
+To call protected endpoints from Swagger UI: run `POST /api/auth/login`, copy the `accessToken`, click **Authorize**, paste the token and confirm.
 Ready-made requests, covering success and failure cases, are in
 `src/EmployeeManagement.Api/EmployeeManagement.Api.http`.
 

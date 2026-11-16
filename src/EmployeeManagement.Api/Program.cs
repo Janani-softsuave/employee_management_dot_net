@@ -1,6 +1,7 @@
 using System.Text;
 using EmployeeManagement.Api.Authorization;
 using EmployeeManagement.Api.Middleware;
+using EmployeeManagement.Api.OpenApi;
 using EmployeeManagement.Application;
 using EmployeeManagement.Infrastructure;
 using EmployeeManagement.Infrastructure.Authentication;
@@ -18,7 +19,7 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 // OpenAPI document generation (served at /openapi/v1.json, browsed through Swagger UI).
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi(options => options.AddDocumentTransformer<BearerSecuritySchemeTransformer>());
 
 // Authentication (who are you?) using JWT bearer tokens.
 var jwtSettings = builder.Configuration.GetSection(JwtSettings.SectionName).Get<JwtSettings>() ?? new JwtSettings();
