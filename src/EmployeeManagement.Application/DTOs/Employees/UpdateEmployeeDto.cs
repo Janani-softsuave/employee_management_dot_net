@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EmployeeManagement.Application.DTOs.Employees;
 
-/// <summary>Full replacement of an employee (PUT semantics).</summary>
 public record UpdateEmployeeDto
 {
     [Required, StringLength(50, MinimumLength = 1)]

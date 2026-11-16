@@ -17,7 +17,6 @@ public class AuthController : ControllerBase
         _authService = authService;
     }
 
-    /// <summary>Exchanges a username and password for a JWT access token.</summary>
     [HttpPost("login")]
     [AllowAnonymous]
     [ProducesResponseType(typeof(LoginResponseDto), StatusCodes.Status200OK)]

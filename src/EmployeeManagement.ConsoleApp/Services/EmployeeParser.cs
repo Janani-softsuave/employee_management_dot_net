@@ -3,15 +3,10 @@ using EmployeeManagement.ConsoleApp.Models;
 
 namespace EmployeeManagement.ConsoleApp.Services;
 
-/// <summary>Turns text lines such as "1,Asha Nair,Engineering,85000,3" into records.</summary>
 public static class EmployeeParser
 {
     private const int ExpectedFieldCount = 5;
 
-    /// <summary>
-    /// Try-pattern: returns false and an error message instead of throwing for bad input.
-    /// <paramref name="record"/> is a reference type, so it is null when parsing fails.
-    /// </summary>
     public static bool TryParse(string? line, out EmployeeRecord? record, out string? error)
     {
         record = null;
@@ -78,7 +73,6 @@ public static class EmployeeParser
         return true;
     }
 
-    /// <summary>Parses many lines. Bad lines are collected as errors; good lines are returned.</summary>
     public static List<EmployeeRecord> ParseAll(IEnumerable<string> lines, List<string> errors)
     {
         var records = new List<EmployeeRecord>();

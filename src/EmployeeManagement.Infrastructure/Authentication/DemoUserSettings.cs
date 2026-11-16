@@ -1,6 +1,5 @@
 namespace EmployeeManagement.Infrastructure.Authentication;
 
-/// <summary>Demo users bound from the "DemoUsers" configuration section (development only).</summary>
 public class DemoUserSettings
 {
     public const string SectionName = "DemoUsers";

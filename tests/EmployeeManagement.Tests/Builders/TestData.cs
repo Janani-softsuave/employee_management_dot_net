@@ -3,7 +3,6 @@ using EmployeeManagement.Domain.Entities;
 
 namespace EmployeeManagement.Tests.Builders;
 
-/// <summary>Small helpers that create valid objects so each test only states what matters to it.</summary>
 public static class TestData
 {
     public static Employee Employee(

@@ -5,7 +5,6 @@ using EmployeeManagement.Tests.Builders;
 
 namespace EmployeeManagement.Tests.Persistence;
 
-/// <summary>Filtering, sorting and paging are plain IQueryable extensions, so they can be tested over a List.</summary>
 public class EmployeeQueryableExtensionsTests
 {
     private static IQueryable<Employee> Sample() =>

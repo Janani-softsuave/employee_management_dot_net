@@ -4,12 +4,11 @@ using EmployeeManagement.ConsoleApp.Models;
 
 namespace EmployeeManagement.ConsoleApp.Services;
 
-/// <summary>Report-building methods. Uses loops and collections only (no LINQ yet: that is Day 3).</summary>
 public static class EmployeeReport
 {
     public static string BuildListing(IReadOnlyList<EmployeeRecord> employees)
     {
-        // StringBuilder avoids creating a new string for every append (strings are immutable).
+
         var builder = new StringBuilder();
         builder.AppendLine(string.Format(
             CultureInfo.InvariantCulture, "{0,-3} {1,-16} {2,-16} {3,10}  {4}", "Id", "Name", "Department", "Salary", "Manager"));
@@ -51,7 +50,6 @@ public static class EmployeeReport
         return matches;
     }
 
-    /// <summary>Counts employees per department with a Dictionary and returns total, average and highest salary.</summary>
     public static string BuildStatistics(IReadOnlyList<EmployeeRecord> employees)
     {
         if (employees.Count == 0)
@@ -85,7 +83,6 @@ public static class EmployeeReport
         builder.AppendLine($"Highest paid:   {highest.Name} ({highest.Salary.ToString("N2", CultureInfo.InvariantCulture)})");
         builder.AppendLine("By department:");
 
-        // Sort the keys so the output order is stable.
         var departments = new List<string>(countByDepartment.Keys);
         departments.Sort(StringComparer.OrdinalIgnoreCase);
 

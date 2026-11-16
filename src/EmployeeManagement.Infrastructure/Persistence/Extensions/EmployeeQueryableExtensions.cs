@@ -3,10 +3,6 @@ using EmployeeManagement.Domain.Entities;
 
 namespace EmployeeManagement.Infrastructure.Persistence.Extensions;
 
-/// <summary>
-/// Reusable filtering, sorting and paging extension methods over IQueryable.
-/// They only build the query expression (deferred execution); the database runs it later.
-/// </summary>
 public static class EmployeeQueryableExtensions
 {
     public static IQueryable<Employee> ApplyFilters(this IQueryable<Employee> query, EmployeeQueryParameters parameters)
@@ -36,7 +32,7 @@ public static class EmployeeQueryableExtensions
 
     public static IQueryable<Employee> ApplySorting(this IQueryable<Employee> query, EmployeeQueryParameters parameters)
     {
-        // Pattern matching selects the sort column; unknown values fall back to last name.
+
         return (parameters.SortBy?.ToLowerInvariant(), parameters.Descending) switch
         {
             ("firstname", false) => query.OrderBy(e => e.FirstName).ThenBy(e => e.Id),

@@ -22,13 +22,11 @@ public class TokenServiceTests
     [Fact]
     public void CreateToken_ContainsNameAndRoleClaims()
     {
-        // Arrange
+
         var sut = CreateSut(new FakeDateTimeProvider());
 
-        // Act
         var response = sut.CreateToken(new AuthenticatedUser("admin", "Admin"));
 
-        // Assert
         var token = new JwtSecurityTokenHandler().ReadJwtToken(response.AccessToken);
         Assert.Equal("Admin", token.Claims.Single(c => c.Type == ClaimNames.Role).Value);
         Assert.Equal("admin", token.Claims.Single(c => c.Type == ClaimNames.Name).Value);
@@ -38,14 +36,12 @@ public class TokenServiceTests
     [Fact]
     public void CreateToken_ExpiresAfterConfiguredMinutes()
     {
-        // Arrange
+
         var clock = new FakeDateTimeProvider();
         var sut = CreateSut(clock);
 
-        // Act
         var response = sut.CreateToken(new AuthenticatedUser("user", "User"));
 
-        // Assert
         Assert.Equal(clock.UtcNow.AddMinutes(30), response.ExpiresAtUtc);
     }
 

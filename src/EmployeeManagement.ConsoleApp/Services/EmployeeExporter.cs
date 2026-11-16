@@ -5,11 +5,7 @@ namespace EmployeeManagement.ConsoleApp.Services;
 
 public static class EmployeeExporter
 {
-    /// <summary>
-    /// Writes employees to a CSV file asynchronously.
-    /// Cancellation: the token is checked before every line, so a cancel request stops the export
-    /// promptly and surfaces as an <see cref="OperationCanceledException"/>.
-    /// </summary>
+
     public static async Task ExportAsync(
         IReadOnlyList<EmployeeRecord> employees,
         string path,

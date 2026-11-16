@@ -5,7 +5,7 @@ namespace EmployeeManagement.Application.Interfaces;
 
 public interface IEmployeeRepository : IRepository<Employee>
 {
-    /// <summary>Returns one page of employees (with department) plus the total count before paging.</summary>
+
     Task<(IReadOnlyList<Employee> Items, int TotalCount)> GetPagedAsync(
         EmployeeQueryParameters query, CancellationToken cancellationToken = default);
 

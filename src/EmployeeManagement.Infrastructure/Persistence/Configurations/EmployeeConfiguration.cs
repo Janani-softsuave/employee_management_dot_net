@@ -17,12 +17,10 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
         builder.Property(e => e.Email).IsRequired().HasMaxLength(150);
         builder.Property(e => e.Salary).HasPrecision(18, 2);
 
-        // FullName is computed in C# and is not a database column.
         builder.Ignore(e => e.FullName);
 
         builder.HasIndex(e => e.Email).IsUnique();
 
-        // One department has many employees. Restrict prevents deleting a department that still has employees.
         builder.HasOne(e => e.Department)
             .WithMany(d => d.Employees)
             .HasForeignKey(e => e.DepartmentId)

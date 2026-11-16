@@ -29,10 +29,9 @@ public class DepartmentServiceTests
     [Fact]
     public async Task CreateAsync_NewName_ReturnsDepartmentWithGeneratedId()
     {
-        // Act
+
         var result = await _sut.CreateAsync(new CreateDepartmentDto { Name = "  Legal ", Description = "Contracts" });
 
-        // Assert
         Assert.Equal("Legal", result.Name);
         Assert.True(result.Id > 0);
     }
@@ -40,10 +39,9 @@ public class DepartmentServiceTests
     [Fact]
     public async Task CreateAsync_DuplicateNameIgnoringCase_ThrowsConflictException()
     {
-        // Arrange
+
         await _sut.CreateAsync(new CreateDepartmentDto { Name = "Legal" });
 
-        // Act + Assert
         await Assert.ThrowsAsync<ConflictException>(
             () => _sut.CreateAsync(new CreateDepartmentDto { Name = "LEGAL" }));
     }
@@ -51,11 +49,10 @@ public class DepartmentServiceTests
     [Fact]
     public async Task DeleteAsync_DepartmentHasEmployees_ThrowsConflictException()
     {
-        // Arrange
+
         _departments.Departments.Add(new Department { Id = 1, Name = "Engineering" });
         _employees.Employees.Add(TestData.Employee(id: 1, departmentId: 1));
 
-        // Act + Assert
         await Assert.ThrowsAsync<ConflictException>(() => _sut.DeleteAsync(1));
         Assert.Single(_departments.Departments);
     }
@@ -63,13 +60,11 @@ public class DepartmentServiceTests
     [Fact]
     public async Task DeleteAsync_EmptyDepartment_RemovesIt()
     {
-        // Arrange
+
         _departments.Departments.Add(new Department { Id = 1, Name = "Engineering" });
 
-        // Act
         await _sut.DeleteAsync(1);
 
-        // Assert
         Assert.Empty(_departments.Departments);
     }
 
@@ -82,7 +77,7 @@ public class DepartmentServiceTests
     [Fact]
     public async Task GetSummariesAsync_GroupsActiveEmployeesByDepartmentWithAverageSalary()
     {
-        // Arrange
+
         _departments.Departments.Add(new Department { Id = 1, Name = "Engineering" });
         _departments.Departments.Add(new Department { Id = 2, Name = "Finance" });
         _employees.Employees.Add(TestData.Employee(id: 1, email: "a@x.com", departmentId: 1, salary: 100m));
@@ -90,10 +85,8 @@ public class DepartmentServiceTests
         _employees.Employees.Add(TestData.Employee(id: 3, email: "c@x.com", departmentId: 2, salary: 300m));
         _employees.Employees.Add(TestData.Employee(id: 4, email: "d@x.com", departmentId: 2, salary: 900m, isActive: false));
 
-        // Act
         var summaries = await _sut.GetSummariesAsync();
 
-        // Assert: sorted by name, inactive employees excluded.
         Assert.Collection(
             summaries,
             engineering =>

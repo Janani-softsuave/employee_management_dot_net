@@ -9,7 +9,6 @@ public class FakeDepartmentRepository : IDepartmentRepository
 
     public List<Department> Departments { get; } = new();
 
-    /// <summary>Optional link used by HasEmployeesAsync.</summary>
     public FakeEmployeeRepository? EmployeeRepository { get; set; }
 
     public Task<Department?> GetByIdAsync(int id, CancellationToken cancellationToken = default)

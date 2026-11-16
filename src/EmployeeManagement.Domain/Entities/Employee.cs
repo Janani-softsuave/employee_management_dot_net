@@ -14,7 +14,6 @@ public class Employee : BaseEntity
 
     public bool IsActive { get; set; } = true;
 
-    // Foreign key + navigation property: each employee belongs to one department.
     public int DepartmentId { get; set; }
 
     public Department? Department { get; set; }

@@ -12,8 +12,6 @@ public class ConsoleAppTests
         new() { Id = 3, Name = "Meera Iyer", Department = "Finance", Salary = 300m }
     ];
 
-    // ---- Parser ----
-
     [Fact]
     public void TryParse_ValidLineWithManager_ReturnsRecord()
     {
@@ -65,8 +63,6 @@ public class ConsoleAppTests
         Assert.Equal("Line 2: Expected 5 comma-separated fields but found 1.", Assert.Single(errors));
     }
 
-    // ---- Report ----
-
     [Fact]
     public void Search_MatchesNameOrDepartmentIgnoringCase()
     {
@@ -105,8 +101,6 @@ public class ConsoleAppTests
         Assert.Contains("-", text.Split('\n')[1]);
     }
 
-    // ---- Value vs reference types ----
-
     [Fact]
     public void Struct_IsCopiedOnAssignment_SoOriginalIsUnaffected()
     {
@@ -143,8 +137,6 @@ public class ConsoleAppTests
 
         Assert.Equal([2, 3], result.Select(e => e.Id).ToArray());
     }
-
-    // ---- Async export with cancellation ----
 
     [Fact]
     public async Task ExportAsync_WritesHeaderAndOneLinePerEmployee()

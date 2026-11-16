@@ -23,7 +23,7 @@ public class AuthService : IAuthService
 
         if (user is null)
         {
-            // Never log the password; the username alone is enough for diagnostics.
+
             _logger.LogWarning("Failed login attempt for user {Username}", request.Username);
             throw new UnauthorizedAccessException("Invalid username or password.");
         }

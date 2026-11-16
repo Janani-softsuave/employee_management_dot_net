@@ -3,10 +3,6 @@ using Microsoft.OpenApi;
 
 namespace EmployeeManagement.Api.OpenApi;
 
-/// <summary>
-/// Adds a JWT bearer security scheme to the OpenAPI document so Swagger UI shows an
-/// "Authorize" button and sends the token in the Authorization header.
-/// </summary>
 internal sealed class BearerSecuritySchemeTransformer : IOpenApiDocumentTransformer
 {
     private const string SchemeName = "Bearer";

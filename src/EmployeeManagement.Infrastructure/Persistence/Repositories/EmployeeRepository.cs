@@ -15,14 +15,13 @@ public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
     public async Task<(IReadOnlyList<Employee> Items, int TotalCount)> GetPagedAsync(
         EmployeeQueryParameters query, CancellationToken cancellationToken = default)
     {
-        // AsNoTracking: read-only query, so EF Core skips change-tracking overhead.
+
         var filtered = Context.Employees
             .AsNoTracking()
             .ApplyFilters(query);
 
         var totalCount = await filtered.CountAsync(cancellationToken);
 
-        // Eager loading: Include joins the department so we avoid an N+1 query pattern.
         var items = await filtered
             .Include(e => e.Department)
             .ApplySorting(query)

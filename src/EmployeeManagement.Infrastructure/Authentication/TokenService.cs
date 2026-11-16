@@ -21,7 +21,7 @@ public class TokenService : ITokenService
 
     public LoginResponseDto CreateToken(AuthenticatedUser user)
     {
-        // Claims describe who the caller is; the role claim drives [Authorize(Roles = ...)].
+
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Username),

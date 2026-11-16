@@ -2,7 +2,6 @@ using EmployeeManagement.Domain.Entities;
 
 namespace EmployeeManagement.Application.Interfaces;
 
-/// <summary>Generic repository over any entity.</summary>
 public interface IRepository<T> where T : BaseEntity
 {
     Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken = default);

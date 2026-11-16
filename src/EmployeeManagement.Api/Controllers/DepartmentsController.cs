@@ -19,7 +19,6 @@ public class DepartmentsController : ControllerBase
         _departmentService = departmentService;
     }
 
-    /// <summary>Lists all departments.</summary>
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyList<DepartmentDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
@@ -30,7 +29,6 @@ public class DepartmentsController : ControllerBase
         return Ok(departments);
     }
 
-    /// <summary>Gets a single department by id.</summary>
     [HttpGet("{id:int}", Name = "GetDepartmentById")]
     [ProducesResponseType(typeof(DepartmentDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
@@ -42,7 +40,6 @@ public class DepartmentsController : ControllerBase
         return Ok(department);
     }
 
-    /// <summary>Gets the active employee count and average salary per department.</summary>
     [HttpGet("summary")]
     [ProducesResponseType(typeof(IReadOnlyList<DepartmentSummaryDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
@@ -53,7 +50,6 @@ public class DepartmentsController : ControllerBase
         return Ok(summaries);
     }
 
-    /// <summary>Creates a department (Admin only).</summary>
     [HttpPost]
     [Authorize(Policy = AuthorizationPolicies.AdminOnly)]
     [ProducesResponseType(typeof(DepartmentDto), StatusCodes.Status201Created)]
@@ -69,7 +65,6 @@ public class DepartmentsController : ControllerBase
         return CreatedAtRoute("GetDepartmentById", new { id = created.Id }, created);
     }
 
-    /// <summary>Replaces a department (PUT, Admin only).</summary>
     [HttpPut("{id:int}")]
     [Authorize(Policy = AuthorizationPolicies.AdminOnly)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -86,7 +81,6 @@ public class DepartmentsController : ControllerBase
         return NoContent();
     }
 
-    /// <summary>Deletes a department that has no employees (Admin only).</summary>
     [HttpDelete("{id:int}")]
     [Authorize(Policy = AuthorizationPolicies.AdminOnly)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

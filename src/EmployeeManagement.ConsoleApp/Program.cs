@@ -1,15 +1,6 @@
 ﻿using EmployeeManagement.ConsoleApp.Models;
 using EmployeeManagement.ConsoleApp.Services;
 
-// Day 1 console application: processes employee records using methods and collections.
-//
-// Usage:
-//   list                     show all employees
-//   search <text>            find employees whose name or department contains the text
-//   stats                    payroll statistics and head count per department
-//   parse "<csv line>"       validate one line: Id,Name,Department,Salary,ManagerId
-//   export <path>            write all employees to a CSV file (async, Ctrl+C cancels)
-
 string[] sampleLines =
 [
     "1,Asha Nair,Engineering,85000,",
@@ -58,7 +49,7 @@ try
         case "export" when args.Length >= 2:
             using (var cts = new CancellationTokenSource())
             {
-                // Ctrl+C requests cancellation instead of killing the process mid-write.
+
                 Console.CancelKeyPress += (_, eventArgs) =>
                 {
                     eventArgs.Cancel = true;

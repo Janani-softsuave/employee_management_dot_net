@@ -87,7 +87,6 @@ public class DepartmentService : IDepartmentService
         _logger.LogInformation("Deleted department {DepartmentId}", id);
     }
 
-    /// <summary>Groups employees by department with a LINQ GroupBy/Select (done in memory: SQLite cannot average decimals).</summary>
     public async Task<IReadOnlyList<DepartmentSummaryDto>> GetSummariesAsync(CancellationToken cancellationToken = default)
     {
         var employees = await _employeeRepository.GetAllWithDepartmentAsync(cancellationToken);

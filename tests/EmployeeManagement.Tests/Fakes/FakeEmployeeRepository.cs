@@ -4,7 +4,6 @@ using EmployeeManagement.Domain.Entities;
 
 namespace EmployeeManagement.Tests.Fakes;
 
-/// <summary>In-memory fake so service logic can be tested without a database.</summary>
 public class FakeEmployeeRepository : IEmployeeRepository
 {
     private int _nextId = 1;
@@ -37,7 +36,7 @@ public class FakeEmployeeRepository : IEmployeeRepository
 
     public void Update(Employee entity)
     {
-        // Entities are held by reference, so changes are already visible.
+
     }
 
     public void Remove(Employee entity) => Employees.Remove(entity);

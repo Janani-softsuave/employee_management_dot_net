@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EmployeeManagement.Tests.Controllers;
 
-/// <summary>Guards the authorization rules so a future refactor cannot silently open an endpoint.</summary>
 public class AuthorizationRulesTests
 {
     [Theory]

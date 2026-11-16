@@ -24,13 +24,11 @@ public class AuthServiceTests
     [Fact]
     public void Login_ValidCredentials_ReturnsToken()
     {
-        // Arrange
+
         var request = new LoginRequestDto { Username = "admin", Password = "secret" };
 
-        // Act
         var response = _sut.Login(request);
 
-        // Assert
         Assert.Equal("token-for-admin", response.AccessToken);
         Assert.Equal("Admin", response.Role);
     }

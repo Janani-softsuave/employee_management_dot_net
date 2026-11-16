@@ -6,7 +6,6 @@ using Microsoft.Extensions.Options;
 
 namespace EmployeeManagement.Infrastructure.Authentication;
 
-/// <summary>Looks users up in configuration. Swap for a database-backed store in a real system.</summary>
 public class ConfiguredUserStore : IUserStore
 {
     private readonly DemoUserSettings _settings;
@@ -26,7 +25,6 @@ public class ConfiguredUserStore : IUserStore
             return null;
         }
 
-        // Constant-time comparison avoids leaking information through timing.
         var expected = Encoding.UTF8.GetBytes(user.Password);
         var actual = Encoding.UTF8.GetBytes(password);
 

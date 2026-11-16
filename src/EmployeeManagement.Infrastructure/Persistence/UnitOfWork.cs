@@ -11,7 +11,6 @@ public class UnitOfWork : IUnitOfWork
         _context = context;
     }
 
-    // SaveChanges wraps all pending changes in a single database transaction.
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) =>
         _context.SaveChangesAsync(cancellationToken);
 }

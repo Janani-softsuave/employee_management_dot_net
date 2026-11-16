@@ -13,7 +13,6 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
         Context = context;
     }
 
-    // Tracked lookup: the caller may modify the returned entity and save it.
     public async Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken = default) =>
         await Context.Set<T>().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 

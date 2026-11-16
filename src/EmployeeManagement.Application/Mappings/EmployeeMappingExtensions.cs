@@ -3,7 +3,6 @@ using EmployeeManagement.Domain.Entities;
 
 namespace EmployeeManagement.Application.Mappings;
 
-/// <summary>Manual entity &lt;-&gt; DTO mapping implemented as extension methods.</summary>
 public static class EmployeeMappingExtensions
 {
     public static EmployeeDto ToDto(this Employee employee) =>

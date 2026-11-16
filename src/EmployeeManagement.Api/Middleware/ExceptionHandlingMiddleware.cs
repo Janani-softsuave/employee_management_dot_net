@@ -3,10 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.Api.Middleware;
 
-/// <summary>
-/// Central exception handling: converts exceptions into consistent RFC 7807 ProblemDetails responses.
-/// Registered first in the pipeline so it can catch exceptions from everything after it.
-/// </summary>
 public class ExceptionHandlingMiddleware
 {
     private readonly RequestDelegate _next;
@@ -26,7 +22,7 @@ public class ExceptionHandlingMiddleware
         }
         catch (OperationCanceledException) when (context.RequestAborted.IsCancellationRequested)
         {
-            // The client disconnected; there is nobody to respond to.
+
             _logger.LogInformation("Request {Method} {Path} was cancelled by the client", context.Request.Method, context.Request.Path);
         }
         catch (Exception exception)
@@ -52,7 +48,7 @@ public class ExceptionHandlingMiddleware
 
         if (problem.Status == StatusCodes.Status500InternalServerError)
         {
-            // Full details go to the log only; the client gets a generic message.
+
             _logger.LogError(exception, "Unhandled exception for {Method} {Path}", context.Request.Method, context.Request.Path);
         }
         else

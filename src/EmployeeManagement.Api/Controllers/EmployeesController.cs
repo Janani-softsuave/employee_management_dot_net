@@ -20,7 +20,6 @@ public class EmployeesController : ControllerBase
         _employeeService = employeeService;
     }
 
-    /// <summary>Lists employees with optional filtering, sorting and pagination.</summary>
     [HttpGet]
     [ProducesResponseType(typeof(PagedResult<EmployeeDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
@@ -32,7 +31,6 @@ public class EmployeesController : ControllerBase
         return Ok(result);
     }
 
-    /// <summary>Gets a single employee by id.</summary>
     [HttpGet("{id:int}", Name = "GetEmployeeById")]
     [ProducesResponseType(typeof(EmployeeDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
@@ -44,7 +42,6 @@ public class EmployeesController : ControllerBase
         return Ok(employee);
     }
 
-    /// <summary>Creates a new employee (Admin only).</summary>
     [HttpPost]
     [Authorize(Policy = AuthorizationPolicies.AdminOnly)]
     [ProducesResponseType(typeof(EmployeeDto), StatusCodes.Status201Created)]
@@ -60,7 +57,6 @@ public class EmployeesController : ControllerBase
         return CreatedAtRoute("GetEmployeeById", new { id = created.Id }, created);
     }
 
-    /// <summary>Replaces an employee (PUT, Admin only).</summary>
     [HttpPut("{id:int}")]
     [Authorize(Policy = AuthorizationPolicies.AdminOnly)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -77,7 +73,6 @@ public class EmployeesController : ControllerBase
         return NoContent();
     }
 
-    /// <summary>Activates or deactivates an employee (PATCH, Admin only).</summary>
     [HttpPatch("{id:int}/status")]
     [Authorize(Policy = AuthorizationPolicies.AdminOnly)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -93,7 +88,6 @@ public class EmployeesController : ControllerBase
         return NoContent();
     }
 
-    /// <summary>Deletes an employee (Admin only).</summary>
     [HttpDelete("{id:int}")]
     [Authorize(Policy = AuthorizationPolicies.AdminOnly)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

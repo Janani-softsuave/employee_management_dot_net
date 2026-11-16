@@ -61,7 +61,6 @@ public class EmployeeService : IEmployeeService
 
         _logger.LogInformation("Created employee {EmployeeId} in department {DepartmentId}", employee.Id, employee.DepartmentId);
 
-        // Reload so the response includes the department name.
         return await GetByIdAsync(employee.Id, cancellationToken);
     }
 

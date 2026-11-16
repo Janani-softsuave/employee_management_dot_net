@@ -1,6 +1,5 @@
 namespace EmployeeManagement.Application.DTOs.Employees;
 
-/// <summary>Filtering, sorting and pagination options bound from the query string.</summary>
 public record EmployeeQueryParameters
 {
     private const int MaxPageSize = 50;
@@ -13,7 +12,6 @@ public record EmployeeQueryParameters
 
     public bool? IsActive { get; init; }
 
-    /// <summary>One of: firstName, lastName, email, hireDate. Defaults to lastName.</summary>
     public string? SortBy { get; init; }
 
     public bool Descending { get; init; }

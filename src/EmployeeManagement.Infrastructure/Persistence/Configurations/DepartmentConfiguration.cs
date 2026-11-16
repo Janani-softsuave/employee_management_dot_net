@@ -21,7 +21,6 @@ public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
 
         builder.HasIndex(d => d.Name).IsUnique();
 
-        // Seed data applied through migrations.
         builder.HasData(
             new Department { Id = 1, Name = "Engineering", Description = "Builds and maintains our software." },
             new Department { Id = 2, Name = "Human Resources", Description = "People and culture." },

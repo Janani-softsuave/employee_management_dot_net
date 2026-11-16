@@ -153,23 +153,21 @@ public class EmployeeLinqQueriesTests
     [Fact]
     public void DeferredExecution_QueryRunsWhenEnumeratedNotWhenDefined()
     {
-        // Arrange
-        var employees = Sample();
-        var activeQuery = EmployeeLinqQueries.GetActive(employees); // nothing has run yet
 
-        // Act: change the source AFTER the query was defined
+        var employees = Sample();
+        var activeQuery = EmployeeLinqQueries.GetActive(employees);
+
         employees.Add(TestData.Employee(id: 99, email: "late@x.com"));
         var ids = activeQuery.Select(e => e.Id).ToList();
 
-        // Assert: the late addition is seen because the query executes now
         Assert.Contains(99, ids);
     }
 
     [Theory]
-    [InlineData(2026, 6, 15, 2024, 6, 15, SeniorityLevel.Mid)]      // exactly 2 years
-    [InlineData(2026, 6, 14, 2024, 6, 15, SeniorityLevel.Junior)]   // one day short of 2 years
-    [InlineData(2026, 6, 15, 2026, 6, 15, SeniorityLevel.Junior)]   // hired today
-    [InlineData(2026, 6, 15, 2021, 6, 15, SeniorityLevel.Senior)]   // exactly 5 years
+    [InlineData(2026, 6, 15, 2024, 6, 15, SeniorityLevel.Mid)]
+    [InlineData(2026, 6, 14, 2024, 6, 15, SeniorityLevel.Junior)]
+    [InlineData(2026, 6, 15, 2026, 6, 15, SeniorityLevel.Junior)]
+    [InlineData(2026, 6, 15, 2021, 6, 15, SeniorityLevel.Senior)]
     [InlineData(2026, 6, 15, 2022, 1, 1, SeniorityLevel.Mid)]
     public void ClassifySeniority_UsesCompletedYearsOfService(
         int todayYear, int todayMonth, int todayDay, int hireYear, int hireMonth, int hireDay, SeniorityLevel expected)
