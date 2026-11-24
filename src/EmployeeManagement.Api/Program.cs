@@ -32,6 +32,8 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+
+        options.MapInboundClaims = false;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -55,6 +57,16 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseMiddleware<RequestLoggingMiddleware>();
 
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path.StartsWithSegments("/api"))
+    {
+        context.Response.Headers.CacheControl = "no-store";
+    }
+
+    await next();
+});
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -65,6 +77,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();

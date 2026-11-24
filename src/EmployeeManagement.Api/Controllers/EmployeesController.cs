@@ -1,7 +1,9 @@
 using EmployeeManagement.Api.Authorization;
 using EmployeeManagement.Application.DTOs.Common;
 using EmployeeManagement.Application.DTOs.Employees;
+using EmployeeManagement.Application.Exceptions;
 using EmployeeManagement.Application.Interfaces;
+using EmployeeManagement.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,10 +28,18 @@ public class EmployeesController : ControllerBase
     public async Task<ActionResult<PagedResult<EmployeeDto>>> GetEmployees(
         [FromQuery] EmployeeQueryParameters query, CancellationToken cancellationToken)
     {
+        // Only admins may see inactive employees; everyone else is limited to active ones.
+        if (!IsAdmin)
+        {
+            query = query with { IsActive = true };
+        }
+
         var result = await _employeeService.GetEmployeesAsync(query, cancellationToken);
 
         return Ok(result);
     }
+
+    private bool IsAdmin => User?.IsInRole(Roles.Admin) == true;
 
     [HttpGet("{id:int}", Name = "GetEmployeeById")]
     [ProducesResponseType(typeof(EmployeeDto), StatusCodes.Status200OK)]
@@ -38,6 +48,11 @@ public class EmployeesController : ControllerBase
     public async Task<ActionResult<EmployeeDto>> GetEmployeeById(int id, CancellationToken cancellationToken)
     {
         var employee = await _employeeService.GetByIdAsync(id, cancellationToken);
+
+        if (!employee.IsActive && !IsAdmin)
+        {
+            throw new NotFoundException(nameof(Employee), id);
+        }
 
         return Ok(employee);
     }
