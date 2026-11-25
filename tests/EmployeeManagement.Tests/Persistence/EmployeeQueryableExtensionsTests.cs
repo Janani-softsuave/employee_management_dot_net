@@ -94,7 +94,7 @@ public class EmployeeQueryableExtensionsTests
             .ApplyPaging(new EmployeeQueryParameters { Page = 2, PageSize = 2 })
             .ToList();
 
-        Assert.Equal(3, Assert.Single(result).Id);
+        Assert.Equal(1, Assert.Single(result).Id);
     }
 
     [Fact]

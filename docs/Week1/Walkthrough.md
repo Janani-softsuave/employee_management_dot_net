@@ -70,4 +70,4 @@ today is accepted (boundary), tomorrow is rejected (invalid).
 ## One SOLID principle in my own code
 
 **Dependency inversion:** `EmployeeService` depends on `IEmployeeRepository`, not on `EmployeeRepository`. That is
-why the same service runs against an in-memory fake in tests and against SQLite in production.
+why the same service runs against an in-memory fake in tests and against SQL Server in production.

@@ -107,7 +107,8 @@ In production, supply the key as an environment variable instead: `Jwt__Key=<sec
 
 ## Database
 
-* EF Core with **SQLite** (file `employeemanagement.db`, created next to the API). Connection string: `ConnectionStrings:DefaultConnection`.
+* EF Core with **SQL Server** (LocalDB by default, database `EmployeeManagementDb`). Connection string: `ConnectionStrings:DefaultConnection`; override it with the `ConnectionStrings__DefaultConnection` environment variable for a real SQL Server.
+* Requires SQL Server LocalDB (installed with Visual Studio) or any SQL Server instance.
 * In the Development environment the app runs `Database.Migrate()` on start-up, creating the database and
   seeding 3 departments and 4 employees.
 * Relationship: one `Department` has many `Employee` (`DeleteBehavior.Restrict` prevents orphaning).
@@ -218,8 +219,7 @@ is the regression test for the case-sensitive duplicate-email defect.
 
 ## Known limitations
 
-* SQLite is used for easy local setup; swap `UseSqlite` in `Infrastructure/DependencyInjection.cs` for another provider if needed.
+* LocalDB is used for easy local setup; point `ConnectionStrings:DefaultConnection` at a full SQL Server for other environments.
 * Demo users come from configuration, with no registration, password hashing or refresh tokens.
-* Salary sorting is not offered because SQLite cannot `ORDER BY` a `decimal` column.
 * There is no optimistic concurrency token; the last write wins.
 * The build/test evidence (`dotnet build`, `dotnet test` output) should be captured on the machine you submit from.
